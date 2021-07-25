@@ -1,4 +1,30 @@
-const searchMovie = document.getElementById('searchMovie');
+const searchListBtn = document.getElementById('searchListButton');
+const myListBtn = document.getElementById('myListButton');
+const searchMovieForm = document.getElementById('searchMovie');
+
+let searchList = document.getElementById('searchList'); 
+let myList = document.getElementById('myList');
+
+let toggleList = (e) =>{
+  //console.log(e.target.id); // i need .target.id
+  if(e.target.id === 'myListButton'){
+    searchList.style.display = 'none';
+    myList.style.display = 'flex';
+
+    myListBtn.disabled=true;
+    searchListBtn.disabled=false;
+  }
+  else{
+    myList.style.display = 'none';
+    searchList.style.display='flex';
+
+    searchListBtn.disabled=true;
+    myListBtn.disabled=false;
+  }
+
+}
+
+
 
 let fetchRequest = async function(movie) {
 
@@ -12,17 +38,14 @@ let fetchRequest = async function(movie) {
 
 let showMovieList = (movies) =>{
   
-/*   if(document.querySelectorAll('div.movieInList')) {
-    let el = document.querySelectorAll('div.movieInList');
-    el.parentElement.removeChild(el);
-  }
- */let elements = document.querySelectorAll('div.movieInList');
+  let elements = document.querySelectorAll('div.movieInList');
+  
   if(elements.length>0)  
     for(el of elements){
       el.remove();
     }
 
-  const list = document.getElementById('searchList'); 
+  
   for(movie of movies){
     let content = document.createElement('div')
     content.setAttribute('class', 'movieInList');
@@ -31,7 +54,7 @@ let showMovieList = (movies) =>{
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `
-    list.append(content);
+    searchList.append(content);
   }
 };
 
@@ -45,4 +68,6 @@ async function SearchAndDisplay(e){
   showMovieList(moviesData);
 }
 
-searchMovie.addEventListener('submit', (e) => SearchAndDisplay(e));
+searchListBtn.addEventListener('click', (e) => toggleList(e));
+myListBtn.addEventListener('click', (e) => toggleList(e));
+searchMovieForm.addEventListener('submit', (e) => SearchAndDisplay(e));

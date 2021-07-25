@@ -29,7 +29,7 @@ main{
   background-color: rgb(236, 195, 141);
   overflow: auto;
 }
-#search {
+#searchListButton {
   position: fixed;
   left: 10%;
   top: 15%;
@@ -39,6 +39,7 @@ main{
   left: 15%;
   top: 15%;
 }
+
 #searchList{
   position: absolute;
   width: 90%;
@@ -48,6 +49,7 @@ main{
   flex-direction: column;
   justify-content: flex-start;
   overflow: auto;
+  
 }
 .movieInList {
   width: 90%;
@@ -68,9 +70,15 @@ main{
   font-size: large;
 }
 
-.myList {
-  display: flex;
+#myList {
+  position: absolute;
+  width: 90%;
+  left: 10%;
+
+  display: none;
   flex-direction: column;
+  justify-content: flex-start;
+  overflow: auto;
 }
 
 
