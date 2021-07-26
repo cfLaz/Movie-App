@@ -63,13 +63,13 @@ main{
   overflow: auto;
 }
 
-.movieInList {
+.movieInSearchList, .movieInMyList {
   width: 90%;
   max-height: 150px;
   background-color: aqua;
   margin: 2%;
 }
-.movieInList img{
+.movieInSearchList img, .movieInMyList img{
   /* position: absolute; */
   float: left;
   max-height: 150px;
@@ -77,12 +77,13 @@ main{
  /*  height: 100%;
   width: 30%; */
 }
-.movieInList p {
+.movieInSearchList p, .movieInMyList p {
   margin-left: 20%;
   font-size: large;
 }
 
 #myList {
+  z-index: 2;
   position: absolute;
   width: 90%;
   left: 10%;
