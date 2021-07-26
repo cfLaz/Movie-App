@@ -1,9 +1,10 @@
 const searchListBtn = document.getElementById('searchListButton');
 const myListBtn = document.getElementById('myListButton');
-const searchMovieForm = document.getElementById('searchMovie');
 
 let searchList = document.getElementById('searchList'); 
 let myList = document.getElementById('myList');
+let movieInfo = document.getElementById('movieInfo');
+const searchMovieForm = document.getElementById('searchMovie');
 
 let toggleList = (e) =>{
   //console.log(e.target.id); // i need .target.id
@@ -24,7 +25,23 @@ let toggleList = (e) =>{
 
 }
 
+async function showMovieInfo(id){
+  
+  let response = await fetch(`http://www.omdbapi.com/?i=${id}&apikey=6920da43`);
+  let movie = await response.json(); //need Title,Year,Poster,Released,Genre,Director,Actors,Plot
 
+  movieInfo.style.display='flex';
+  movieInfo.innerHTML=`
+    <p class='movieInfoElement'>${movie.Title}</p>
+    <p class='movieInfoElement'> ${movie.Year}</p>
+    <img class='movieInfoElement' src=${movie.Poster} alt=${movie.Title}>
+    <p class='movieInfoElement'>Release: ${movie.Released}</p>
+    <p class='movieInfoElement'>Genre: ${movie.Genre}</p>
+    <p class='movieInfoElement'>Director: ${movie.Director}</p>
+    <p class='movieInfoElement'>Actors: ${movie.Actors}</p>
+    <p class='movieInfoElement'>Plot: <br> ${movie.Plot}</p>   
+  `
+}
 
 let fetchRequest = async function(movie) {
 
@@ -45,15 +62,17 @@ let showMovieList = (movies) =>{
       el.remove();
     }
 
-  
   for(movie of movies){
     let content = document.createElement('div')
+    let id = movie.imdbID; 
+
     content.setAttribute('class', 'movieInList');
     content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `
+    content.addEventListener('click', () => showMovieInfo(id));
     searchList.append(content);
   }
 };
@@ -70,4 +89,5 @@ async function SearchAndDisplay(e){
 
 searchListBtn.addEventListener('click', (e) => toggleList(e));
 myListBtn.addEventListener('click', (e) => toggleList(e));
+
 searchMovieForm.addEventListener('submit', (e) => SearchAndDisplay(e));
