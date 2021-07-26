@@ -51,6 +51,18 @@ main{
   overflow: auto;
   
 }
+
+#myList{
+  position: absolute;
+  width: 90%;
+  left: 10%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: auto;
+}
+
 .movieInList {
   width: 90%;
   max-height: 150px;
@@ -105,6 +117,10 @@ main{
 }
 img[class='movieInfoElement']{
   max-width: 200px;
+}
+button[class='movieInfoElement'] {
+  width: 40%; 
+  margin: 2% 20% 2% 30%;
 }
 /* button {
   display: inline;
