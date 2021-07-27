@@ -28,7 +28,7 @@ showMovieInfoFromLocalStorage = (movie) => {
   toggleMovieButton = document.getElementById('addOrRemoveMovie');
   toggleMovieButton.addEventListener('click', (e)=> toggleMovie(e));
 
-  if(localStorage.getItem(movieInfo.children[0].innerText)){
+  if(localStorage.getItem(movie.Title+movie.Year)){
     console.log('movie is bookmarked')
     toggleMovieButton.textContent = 'Remove from my list';
   }
@@ -36,22 +36,23 @@ showMovieInfoFromLocalStorage = (movie) => {
 
 
 let addMovieToMyList =(movie) =>{
-  
+  let name = movie.Title+movie.Year;
+
   let content = document.createElement('div');
     content.setAttribute('class', 'movieInMyList');
-    content.setAttribute('id', movie.Title); //for easier deleting from movieInfo section
+    content.setAttribute('id', name+'myList'); //for easier deleting from movieInfo section
   let removeMovieBtn = document.createElement('button');
     removeMovieBtn.setAttribute('class', 'removeMovie');
     removeMovieBtn.textContent='Remove';
 
-  if(!document.getElementById(movie.Title+'star')){
-    let star = document.createElement('span'); //for searchList
-      star.setAttribute('id', movie.Title+'star');
-      star.innerHTML='&#11088';
-    document.getElementById(movie.Title+'id').append(star);  
-  }  
   
-
+  //if movie doesn't have a star and exists in searchList, we add the star to it
+  if(!document.getElementById(name+'star') && document.getElementById(name+'searchList')){
+    let star = document.createElement('span'); //for searchList
+      star.setAttribute('id', name+'star');
+      star.innerHTML='&#11088';
+    document.getElementById(name+'searchList').append(star);  
+  }   
   content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
         <p>${movie.Title}</p>
@@ -81,7 +82,6 @@ let showMyMovies=()=> {
   for(key of keys){
     movies.push(JSON.parse(localStorage.getItem(key)) );
   }
-
   for(let movie of movies){
     addMovieToMyList(movie);
   } 
@@ -106,7 +106,6 @@ let toggleList = (e) =>{
     myListBtn.disabled=false;
     movieInfo.style.display='none';   
   }
-
 }
 
 let toggleMovie =(e) => { 
@@ -125,36 +124,37 @@ let toggleMovie =(e) => {
       Actors: info[6].innerText,
       Plot: info[7].innerText,
     }
-    localStorage.setItem(data.Title, JSON.stringify(data));
+    localStorage.setItem(data.Title+data.Year, JSON.stringify(data));
     //let retrievedData = localStorage.getItem(data.Title);
     //console.log(JSON.parse(retrievedData));
     e.target.textContent='Remove from my list';
     addMovieToMyList(data);
   }
   else if (e.target.textContent==='Remove'){
-    if(movieInfo.children[0]){
-      let title = movieInfo.children[0].innerText;
-      //console.log(title);
-      localStorage.removeItem(title);
-  
-      let toggleMovieButton = document.getElementById('addOrRemoveMovie');
-      toggleMovieButton.textContent = 'Add to my list';
 
+      let title = e.target.parentNode.id.replace('myList','') //movie name in local storage
+      console.log(e.target.parentNode);
+      localStorage.removeItem(title);
+
+      if(movieInfo.children[0]){        
+        let toggleMovieButton = document.getElementById('addOrRemoveMovie');
+          toggleMovieButton.textContent = 'Add to my list';
+      }
       if(document.getElementById(title+'star')) {
         console.log('removing star');
         document.getElementById(title+'star').remove();
       }
-    }
-
    //movieInfo.style.display='none';    
   }
   else {
-    let title = movieInfo.children[0].innerText;
+    let title = movieInfo.children[0].innerText + movieInfo.children[1].innerText;
     console.log(title);
     localStorage.removeItem(title);
     e.target.textContent='Add to my list';
-    document.getElementById(title).remove();
-    document.getElementById(title+'star').remove();
+    document.getElementById(title+'myList').remove();
+    if(document.getElementById(title+'star')){
+      document.getElementById(title+'star').remove(); // only when movie is in the searchList
+    }
   };
 }
 
@@ -178,11 +178,10 @@ async function showMovieInfo(id){
   toggleMovieButton = document.getElementById('addOrRemoveMovie');
   toggleMovieButton.addEventListener('click', (e)=> toggleMovie(e));
 
-  if(localStorage.getItem(movieInfo.children[0].innerText)){
+  if(localStorage.getItem(movie.Title+movie.Year)){
     toggleMovieButton.textContent = 'Remove from my list';
   }
 }
-
 
 let showMoviesInSearchList = (movies) =>{
   
@@ -192,13 +191,12 @@ let showMoviesInSearchList = (movies) =>{
     for(el of elements){
       el.remove();
     }
-
   for(movie of movies){
     let content = document.createElement('div')
     let id = movie.imdbID; 
 
     content.setAttribute('class', 'movieInSearchList');
-    content.setAttribute('id', movie.Title+'id');
+    content.setAttribute('id', movie.Title+movie.Year+'searchList');
 
     content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
@@ -206,9 +204,9 @@ let showMoviesInSearchList = (movies) =>{
         <p>${movie.Year}</p>
     `
     
-    if(localStorage.getItem(movie.Title)) {
+    if(localStorage.getItem(movie.Title+movie.Year)) {
       let star = document.createElement('span');
-      star.setAttribute('id', movie.Title+'star');
+      star.setAttribute('id', movie.Title+movie.Year+'star');
       star.innerHTML='&#11088';
       content.append(star);
     }
@@ -218,12 +216,10 @@ let showMoviesInSearchList = (movies) =>{
   }
 };
 
-
 let fetchRequest = async function(movie) {
 
   const response = await fetch(`http://www.omdbapi.com/?s=${movie}&apikey=6920da43`);
   //console.table(response);
-
   let data = await response.json();
   console.log(data);
   return data.Search;
@@ -233,7 +229,7 @@ async function SearchAndDisplay(e){
   e.preventDefault(); //prevents the form from autosubmitting
   //console.log(e.target);
   let movieName = document.getElementById('movieName').value;
-  console.log(movieName);
+  console.log('searching: '+movieName);
 
   let moviesData = await fetchRequest(movieName);
   showMoviesInSearchList(moviesData);
