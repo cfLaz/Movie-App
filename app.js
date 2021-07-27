@@ -51,14 +51,14 @@ let addMovieToMyList =(movie) =>{
     let star = document.createElement('span'); //for searchList
       star.setAttribute('id', name+'star');
       star.innerHTML='&#11088';
-    document.getElementById(name+'searchList').append(star);  
+    document.getElementById(name+'searchList').childNodes[3].append(star);  
   }   
   content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `;
-  content.append(removeMovieBtn);
+  content.childNodes[5].append(removeMovieBtn);
     
   removeMovieBtn.addEventListener('click', (e)=> {
     e.stopPropagation();
@@ -203,14 +203,12 @@ let showMoviesInSearchList = (movies) =>{
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `
-    
     if(localStorage.getItem(movie.Title+movie.Year)) {
       let star = document.createElement('span');
       star.setAttribute('id', movie.Title+movie.Year+'star');
       star.innerHTML='&#11088';
-      content.append(star);
+      content.childNodes[3].append(star)
     }
-
     content.addEventListener('click', () => showMovieInfo(id));
     searchList.append(content);
   }
@@ -222,16 +220,21 @@ let fetchRequest = async function(movie) {
   //console.table(response);
   let data = await response.json();
   console.log(data);
+  if(data.Response==='False'){
+    alert(data.Error);
+    return data;
+  }
   return data.Search;
 }
 
 async function SearchAndDisplay(e){
-  e.preventDefault(); //prevents the form from autosubmitting
+  e.preventDefault();
   //console.log(e.target);
   let movieName = document.getElementById('movieName').value;
   console.log('searching: '+movieName);
 
   let moviesData = await fetchRequest(movieName);
+  if(moviesData.Response==='False') return;
   showMoviesInSearchList(moviesData);
 }
 
