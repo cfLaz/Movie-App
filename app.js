@@ -40,24 +40,32 @@ let addMovieToMyList =(movie) =>{
   let content = document.createElement('div');
     content.setAttribute('class', 'movieInMyList');
     content.setAttribute('id', movie.Title); //for easier deleting from movieInfo section
-    let removeMovieBtn = document.createElement('button');
+  let removeMovieBtn = document.createElement('button');
     removeMovieBtn.setAttribute('class', 'removeMovie');
     removeMovieBtn.textContent='Remove';
 
-    content.innerHTML=`
+  if(!document.getElementById(movie.Title+'star')){
+    let star = document.createElement('span'); //for searchList
+      star.setAttribute('id', movie.Title+'star');
+      star.innerHTML='&#11088';
+    document.getElementById(movie.Title+'id').append(star);  
+  }  
+  
+
+  content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `;
-    content.append(removeMovieBtn);
+  content.append(removeMovieBtn);
     
-    removeMovieBtn.addEventListener('click', (e)=> {
-      e.stopPropagation();
-      content.remove()
-      toggleMovie(e);
+  removeMovieBtn.addEventListener('click', (e)=> {
+    e.stopPropagation();
+    content.remove()
+    toggleMovie(e);
     });
-    content.addEventListener('click', () => showMovieInfoFromLocalStorage(movie));
-    myList.append(content);
+  content.addEventListener('click', () => showMovieInfoFromLocalStorage(movie));
+  myList.append(content);
 }
 
 let showMyMovies=()=> {
@@ -101,10 +109,10 @@ let toggleList = (e) =>{
 
 }
 
-let toggleMovie =(e) => {
+let toggleMovie =(e) => { 
   console.log('toggleMovie fired with button: '+e.target.textContent);
   if(e.target.textContent==='Add to my list'){
-    //console.log(movieInfo.children);
+    console.log(movieInfo.children);
     let info = movieInfo.children;
     
     let data = {
@@ -121,7 +129,6 @@ let toggleMovie =(e) => {
     //let retrievedData = localStorage.getItem(data.Title);
     //console.log(JSON.parse(retrievedData));
     e.target.textContent='Remove from my list';
-
     addMovieToMyList(data);
   }
   else if (e.target.textContent==='Remove'){
@@ -132,6 +139,11 @@ let toggleMovie =(e) => {
   
       let toggleMovieButton = document.getElementById('addOrRemoveMovie');
       toggleMovieButton.textContent = 'Add to my list';
+
+      if(document.getElementById(title+'star')) {
+        console.log('removing star');
+        document.getElementById(title+'star').remove();
+      }
     }
 
    //movieInfo.style.display='none';    
@@ -142,6 +154,7 @@ let toggleMovie =(e) => {
     localStorage.removeItem(title);
     e.target.textContent='Add to my list';
     document.getElementById(title).remove();
+    document.getElementById(title+'star').remove();
   };
 }
 
@@ -171,7 +184,7 @@ async function showMovieInfo(id){
 }
 
 
-let showMoviesList = (movies) =>{
+let showMoviesInSearchList = (movies) =>{
   
   let elements = document.querySelectorAll('div.movieInSearchList');
   
@@ -185,11 +198,21 @@ let showMoviesList = (movies) =>{
     let id = movie.imdbID; 
 
     content.setAttribute('class', 'movieInSearchList');
+    content.setAttribute('id', movie.Title+'id');
+
     content.innerHTML=`
         <img src=${movie.Poster} alt=${movie.Title}>
         <p>${movie.Title}</p>
         <p>${movie.Year}</p>
     `
+    
+    if(localStorage.getItem(movie.Title)) {
+      let star = document.createElement('span');
+      star.setAttribute('id', movie.Title+'star');
+      star.innerHTML='&#11088';
+      content.append(star);
+    }
+
     content.addEventListener('click', () => showMovieInfo(id));
     searchList.append(content);
   }
@@ -213,7 +236,7 @@ async function SearchAndDisplay(e){
   console.log(movieName);
 
   let moviesData = await fetchRequest(movieName);
-  showMoviesList(moviesData);
+  showMoviesInSearchList(moviesData);
 }
 
 searchListBtn.addEventListener('click', (e) => toggleList(e));

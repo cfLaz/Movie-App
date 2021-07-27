@@ -70,16 +70,19 @@ main{
   margin: 2%;
 }
 .movieInSearchList img, .movieInMyList img{
-  /* position: absolute; */
   float: left;
   max-height: 150px;
   max-width: 50%;
- /*  height: 100%;
-  width: 30%; */
+  margin-right: 5%;
 }
 .movieInSearchList p, .movieInMyList p {
-  margin-left: 20%;
+  /* margin-left: 20%; */
   font-size: large;
+}
+.movieInSearchList span {
+  font-size: x-large;
+  float: right;
+  margin-right: 5%;
 }
 
 #myList {
