@@ -50,6 +50,7 @@ main{
   border-radius: 15% 15% 0% 0%;
   font-weight: bold;
   font-size:small;
+  cursor: pointer;
 }
 #searchListButton { 
   left: 15%;  
@@ -117,6 +118,7 @@ main{
     color: whitesmoke;
     background: rgb(233, 180, 81);
     border-radius: 15%;
+    cursor: pointer;
   }
 
 /**********************/
@@ -145,7 +147,7 @@ main{
   }
 
   .movieInSearchList:hover, .movieInMyList:hover {
-    cursor: pointer;
+    cursor: zoom-in;
   }
   .movieInSearchList span {
   font-size: x-large;
@@ -166,6 +168,7 @@ main{
 }
   .movieInMyList button:hover{
   background-color: rgba(255, 0, 0, 0.809);
+  cursor: pointer;
 }
 /**********************/
 
@@ -198,23 +201,36 @@ main{
   margin: 2%;
   margin-left: 5%;
 }
-img[class='movieInfoElement']{
-  max-width: 70%;
-  max-height: 70%;
-}
-button[class='movieInfoElement'] {
-  width: 40%; 
-  margin: 2% 20% 2% 30%;
+  .movieInfoElement span {
+    font-size: large;
+    font-weight: bold;
+  }
+  img[class='movieInfoElement']{
+    max-width: 70%;
+    max-height: 70%;
+  }
+  button[class='movieInfoElement'] {
+    width: 40%; 
+    margin: 2% 20% 2% 30%;
 
-  padding: 1%;
-  color: whitesmoke;
-  background-color: rgba(0, 0, 0, 0.583) ;
-  border-radius: 15%;
-  font-weight: bold;
-  font-size: medium;
+    padding: 1%;
+    color: whitesmoke;
+    background-color: rgba(0, 0, 0, 0.583) ;
+    border-radius: 15%;
+    font-weight: bold;
+    font-size: medium;
+  }
+ 
+button[class='movieInfoElement']:hover{
+  background-color: green;
+  cursor: pointer;
 }
-button[class='movieInfoElement']:active{
-  color: red;
+button[type='button']:hover{
+  background-color: red;
 }
+
+/* img[src='N/A'] {
+
+} */
 
 /**********************/

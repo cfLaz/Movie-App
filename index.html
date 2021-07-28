@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie App</title>
-    <link rel="stylesheet" href="app.css">
-</head>
-<body>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header>
+      <span>Movie App</span>
+    </header>
 
-  <header>
-    <span>Movie App</span>
-  </header>
-  
-    <button id="searchListButton" disabled='true'>Search results list</button>
-    
-    <button id='myListButton'>My favourite movies</button>
-  
-  <main>
-    <div id='searchList'>
+    <button id="searchListButton" disabled="true">Search results list</button>
 
-      <form id='searchMovie'>
-        <input type="text" id='movieName' name='movie' placeholder="type in name of the movie" required/>
-        <input type="submit" value="Search"/>
-      </form>
+    <button id="myListButton">My favourite movies</button>
 
-    </div>
-    
-    <div id='myList'>
-      
-    </div>
+    <main>
+      <div id="searchList">
+        <form id="searchMovie">
+          <input
+            type="text"
+            id="movieName"
+            name="movie"
+            placeholder="type in name of the movie"
+            required
+          />
+          <input type="submit" value="Search" />
+        </form>
+      </div>
 
-  </main>
+      <div id="myList"></div>
+    </main>
 
-  <aside id='movieInfo'>
+    <aside id="movieInfo"></aside>
 
-  </aside>
-
- <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
