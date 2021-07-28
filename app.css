@@ -2,7 +2,7 @@
 
 html {
   overflow: hidden;
-  background-image: url('/background.jpg');
+  background-image: url(background.jpg);
   background-size: cover;
 }
 body{
@@ -38,6 +38,8 @@ main{
   scroll-behavior: smooth;
 }
 
+/**********************/
+
 #searchListButton,  #myListButton {
   position: fixed;
   color: whitesmoke;
@@ -64,6 +66,8 @@ main{
     box-shadow: 10px -5px 10px whitesmoke;
   }
 
+/**********************/
+
 #searchList{
   position: absolute;
   width: 90%;
@@ -77,6 +81,21 @@ main{
 #searchList:nth-child(2){
   margin-top: 2%;
 }
+
+#myList{
+  z-index: 2;
+  position: absolute;
+  width: 90%;
+  left: 10%;
+
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: auto;
+}
+
+/**********************/
+
 #searchMovie{
   margin: 1%;
   width: 50%;
@@ -99,16 +118,8 @@ main{
     background: rgb(233, 180, 81);
     border-radius: 15%;
   }
-#myList{
-  position: absolute;
-  width: 90%;
-  left: 10%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: auto;
-}
+/**********************/
 
 .movieInSearchList, .movieInMyList {
   width: 90%;
@@ -132,23 +143,31 @@ main{
   /* margin-left: 20%; */
   font-size: large;
   }
-.movieInSearchList span {
+
+  .movieInSearchList:hover, .movieInMyList:hover {
+    cursor: pointer;
+  }
+  .movieInSearchList span {
   font-size: x-large;
   float: right;
   margin-right: 5%;
 }
 
-#myList {
-  z-index: 2;
-  position: absolute;
-  width: 90%;
-  left: 10%;
+  .movieInMyList button{
+  float: right;
+  margin-right: 5%;
 
-  display: none;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: auto;
+  padding: 1%;
+  color: whitesmoke;
+  background-color: rgba(0, 0, 0, 0.583) ;
+  border-radius: 15%;
+  font-weight: bold;
+  font-size: medium;
 }
+  .movieInMyList button:hover{
+  background-color: rgba(255, 0, 0, 0.809);
+}
+/**********************/
 
 
 #movieInfo {
@@ -198,20 +217,4 @@ button[class='movieInfoElement']:active{
   color: red;
 }
 
-.movieInMyList button{
-  float: right;
-  margin-right: 5%;
-
-  padding: 1%;
-  color: whitesmoke;
-  background-color: rgba(0, 0, 0, 0.583) ;
-  border-radius: 15%;
-  font-weight: bold;
-  font-size: medium;
-}
-.movieInMyList button:hover{
-  background-color: rgba(255, 0, 0, 0.809);
-}
-/* button {
-  display: inline;
-} */
+/**********************/
